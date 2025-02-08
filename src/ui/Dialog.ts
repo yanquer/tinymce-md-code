@@ -1,21 +1,21 @@
-// import {Editor} from 'tinymce';
+import {Editor} from 'tinymce';
 
 import * as Content from '../core/Content';
+import {TextHandler} from "../third/text-handler";
 
-type Editor = any
 
 const open = (editor: Editor): void => {
   const editorContent = Content.getContent(editor);
 
   editor.windowManager.open({
-    title: 'Source Codemd',
+    title: 'Source CodeMd',
     size: 'large',
     body: {
       type: 'panel',
       items: [
         {
           type: 'textarea',
-          name: 'codemd'
+          name: 'codeMd'
         }
       ]
     },
@@ -33,10 +33,12 @@ const open = (editor: Editor): void => {
       }
     ],
     initialData: {
-      code: editorContent
+      codeMd: editorContent
     },
     onSubmit: (api: any) => {
-      Content.setContent(editor, api.getData().code);
+      const curText: {codeMd: string} = api.getData()
+      const html_ = TextHandler.shared.convertMdToHtml(curText.codeMd)
+      Content.setContent(editor, html_);
       api.close();
     }
   });

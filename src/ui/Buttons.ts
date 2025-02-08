@@ -1,20 +1,21 @@
-// import {Editor} from 'tinymce';
+import {Editor} from 'tinymce';
 
-type Editor = any
+import {CodeMD} from "../common";
+
 
 const register = (editor: Editor): void => {
 
-  const onAction = () => editor.execCommand('mceCodeEditor');
+  const onAction = () => editor.execCommand(CodeMD.CMD_ID);
 
-  editor.ui.registry.addButton('codemd', {
+  editor.ui.registry.addButton(CodeMD.ID, {
     icon: 'sourcecode',
-    tooltip: 'Source codemd',
+    tooltip: 'Source CodeMd',
     onAction
   });
 
-  editor.ui.registry.addMenuItem('codemd', {
+  editor.ui.registry.addMenuItem(CodeMD.ID, {
     icon: 'sourcecode',
-    text: 'Source codemd',
+    text: 'Source CodeMd',
     onAction
   });
 };

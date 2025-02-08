@@ -1,6 +1,7 @@
-// import {Editor} from 'tinymce';
+import {Editor} from 'tinymce';
+import {TextType} from "../common";
+import {TextHandler} from "../third/text-handler";
 
-type Editor = any
 
 const setContent = (editor: Editor, html: string): void => {
   // We get a lovely "Wrong document" error in IE 11 if we
@@ -16,8 +17,10 @@ const setContent = (editor: Editor, html: string): void => {
   editor.nodeChanged();
 };
 
-const getContent = (editor: Editor): string => {
-  return editor.getContent({ source_view: true });
+const getContent = (editor: Editor, textType: TextType=TextType.RAW): string => {
+  const htmlText = editor.getContent({ source_view: true});
+
+  return TextHandler.shared.convertHtmlToMd(htmlText);
 };
 
 export {

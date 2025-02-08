@@ -1,21 +1,20 @@
-// import tinymce, {Editor} from 'tinymce';
 
 import * as Commands from './api/Commands';
 import * as Buttons from './ui/Buttons';
+import {CodeMD} from "./common";
+import {TextHandler} from "./third/text-handler";
 
 type Editor = any
 
 
 export default (): void => {
-  // console.log("register codemd -  ")
-  // const PluginManager = tinymce.util.Tools.resolve("tinymce.PluginManager")
-  // tinymce.PluginManager.add('codemd', (editor: Editor) => {
-  tinymce.PluginManager.add('codemd', (editor: Editor) => {
-    console.log("register2 codemd -  ")
+  tinymce.PluginManager.add(CodeMD.ID, (editor: Editor) => {
     Commands.register(editor);
     Buttons.register(editor);
 
-    console.log("register2 codemd ")
+    // 注册文本处理
+    TextHandler.shared.register(editor);
+
     // 返回插件的元数据
     return {} ;
   });

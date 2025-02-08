@@ -1,11 +1,11 @@
-// import {Editor} from 'tinymce';
+import {Editor} from 'tinymce';
 
 import * as Dialog from '../ui/Dialog';
+import {CodeMD} from "../common";
 
-type Editor = any
 
 const register = (editor: Editor): void => {
-  editor.addCommand('mceCodeEditor2', () => {
+  editor.addCommand(CodeMD.CMD_ID, () => {
     Dialog.open(editor);
   });
 };

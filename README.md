@@ -17,7 +17,7 @@
 yarn add turndown markdown-it  --save
 ```
 
-再将 [!转换器](resources/ts/text-convert.ts) 拷贝到自己的项目,
+再将 [text-convert.ts](resources/ts/text-convert.ts) 拷贝到自己的项目,
 这是为了实现markdow与html的互相转换.
 
 为什么不直接写到插件内部? 抱歉, 插件是前端库, 编译的require是node才能用的,

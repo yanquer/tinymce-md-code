@@ -8,7 +8,7 @@ const open = (editor: Editor): void => {
   const editorContent = Content.getContent(editor);
 
   editor.windowManager.open({
-    title: 'Source CodeMd',
+    title: 'Source Code',
     size: 'large',
     body: {
       type: 'panel',

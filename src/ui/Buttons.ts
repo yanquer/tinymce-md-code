@@ -9,13 +9,13 @@ const register = (editor: Editor): void => {
 
   editor.ui.registry.addButton(CodeMD.ID, {
     icon: 'sourcecode',
-    tooltip: 'Source CodeMd',
+    tooltip: 'Source Code',
     onAction
   });
 
   editor.ui.registry.addMenuItem(CodeMD.ID, {
     icon: 'sourcecode',
-    text: 'Source CodeMd',
+    text: 'Source Code',
     onAction
   });
 };

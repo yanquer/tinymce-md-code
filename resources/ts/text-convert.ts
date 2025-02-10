@@ -1,5 +1,7 @@
+// @ts-ignore
 import markdownit from 'markdown-it'
 // import TurndownService from 'turndown/lib/turndown.browser.umd'
+// @ts-ignore
 import TurndownService from 'turndown'
 
 

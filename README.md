@@ -20,9 +20,9 @@ yarn add turndown markdown-it  --save
 再将 [text-convert.ts](resources/ts/text-convert.ts) 拷贝到自己的项目,
 这是为了实现markdow与html的互相转换.
 
-为什么不直接写到插件内部? 抱歉, 插件是前端库, 编译的require是node才能用的,
-全部弄到插件代码里, 可能会跟外部库有重复,
-稳一手, 需要导库的自行实现
+为什么不直接写到插件内部? 插件是前端库, 编译的require是node才能用的,
+全部弄到插件代码里, 可能会跟外部库有重复, 另外就是内网不方便用cdn,
+所以三方库调用自行实现
 
 最后上代码(React版本)
 
@@ -60,9 +60,8 @@ const TinyEditor = () => {
                         // 'help',
                         'wordcount',
                         'codemd',
-                        'supercode',
                     ],
-                    toolbar: 'undo redo codemd supercode code  | blocks | ' +
+                    toolbar: 'undo redo codemd | blocks | ' +
                         'bold italic forecolor | alignleft aligncenter ' +
                         'alignright alignjustify | bullist numlist outdent indent | ' +
                         'removeformat ',
@@ -82,6 +81,15 @@ const TinyEditor = () => {
 export default TinyEditor
 
 ```
+
+## 其它方式使用
+
+| 图例是react项目
+
+使用官方提供的 `external_plugins` 参数
+
+![img.png](resources/img/img2.png)
+
 
 
 

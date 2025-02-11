@@ -20,7 +20,8 @@ const setContent = (editor: Editor, html: string): void => {
 const getContent = (editor: Editor, textType: TextType=TextType.RAW): string => {
   const htmlText = editor.getContent({ source_view: true});
 
-  return TextHandler.shared.convertHtmlToMd(htmlText);
+  // return TextHandler.shared.convertHtmlToMd(htmlText);
+  return htmlText
 };
 
 export {

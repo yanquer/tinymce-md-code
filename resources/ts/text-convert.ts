@@ -4,6 +4,10 @@ import markdownit from 'markdown-it'
 // @ts-ignore
 import TurndownService from 'turndown'
 
+/// 如果上面import不支持, 尝试直接 require
+// const markdownit =  require('markdown-it')
+// const TurndownService = require('turndown/lib/turndown.browser.umd')
+
 
 export class TextConvert {
     static shared = new TextConvert()

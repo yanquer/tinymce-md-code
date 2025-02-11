@@ -58,6 +58,8 @@ export class MdTextEditor {
         textArea.style.border = "none";
         textArea.style.fontSize = fontSize;
         textArea.style.resize = "none";
+        // 去掉激活时外部轮廓线
+        textArea.style.outline = "none";
         // textArea.text = (ev) => {
         //     const textVal = textArea.textContent
         //     this.mdString = textVal;

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.2.1
+
+- 去除textarea的外轮廓
+- 移除没用的js
+
 ## 0.2.0
 
 针对上个版本必须配置自己的 `markdown - html` 转换方法的问题, 

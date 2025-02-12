@@ -17,14 +17,23 @@ const setContent = (editor: Editor, html: string): void => {
   editor.nodeChanged();
 };
 
+// editor 缓存
+let editorRef: Editor | undefined = undefined
 const getContent = (editor: Editor, textType: TextType=TextType.RAW): string => {
+  editorRef = editor
   const htmlText = editor.getContent({ source_view: true});
 
   // return TextHandler.shared.convertHtmlToMd(htmlText);
   return htmlText
 };
+const getCacheEditorContent = (editor?: Editor, textType: TextType=TextType.RAW): string => {
+
+  return editorRef?.getContent({ source_view: true}) ?? ""
+
+};
 
 export {
   setContent,
-  getContent
+  getContent,
+  getCacheEditorContent,
 };

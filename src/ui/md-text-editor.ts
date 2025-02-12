@@ -1,5 +1,9 @@
 import {Editor} from "tinymce";
 
+import * as Content from '../core/Content';
+import {getCacheEditorContent} from "../core/Content";
+import {TextHandler} from "../third/text-handler";
+
 export class MdTextEditor {
     static shared = new MdTextEditor();
 
@@ -19,10 +23,70 @@ export class MdTextEditor {
     }
 
     protected textArea?: HTMLTextAreaElement;
+    protected iframe?: HTMLIFrameElement;
+    protected mdBodyMouserEnterEvent(){
+        if (this.iframe){
+            const iframeBody = this.iframe.contentDocument.body as HTMLBodyElement;
+            iframeBody.contentEditable = 'false'
+        }
+    }
+    protected mdBodyMouserLeaveEvent(){
+        if (this.iframe){
+            const iframeBody = this.iframe.contentDocument.body as HTMLBodyElement;
+            iframeBody.contentEditable = 'true'
+        }
+    }
+    protected mdBodyAddEvent(bodyMd: HTMLBodyElement){
+        bodyMd.addEventListener('mouseenter', (e) => this.mdBodyMouserEnterEvent() )
+        bodyMd.addEventListener('mouseleave', (e) => this.mdBodyMouserLeaveEvent() )
+    }
+    protected mdBodyRmEvent(bodyMd: HTMLBodyElement){
+        bodyMd.removeEventListener('mouseenter', (e) => this.mdBodyMouserEnterEvent() )
+        bodyMd.removeEventListener('mouseleave', (e) => this.mdBodyMouserLeaveEvent() )
+    }
+
+    protected htmlChange(htmlBody: HTMLBodyElement){
+
+        const setTextAreaText = (text: string) => {
+            if (this.textArea){
+                this.textArea.textContent = text
+            }
+        }
+
+        const observer = new MutationObserver((mutationsList, observer) => {
+            mutationsList.forEach(mutation => {
+                if (mutation.type === 'childList') {
+                    console.log('A child node has been added or removed.');
+                    setTextAreaText(TextHandler.shared.convertHtmlToMd(Content.getCacheEditorContent()))
+                } else if (mutation.type === 'attributes') {
+                    console.log(`The ${mutation.attributeName} attribute was modified.`);
+                    setTextAreaText(TextHandler.shared.convertHtmlToMd(Content.getCacheEditorContent()))
+                }
+            });
+        });
+
+        const config = {
+            attributes: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: true
+        };
+
+        observer.observe(htmlBody, config);
+        return () => {observer.disconnect();};
+    }
+    protected htmlRmEvent?: () => void
+    protected htmlBodyAddEvent(htmlBody: HTMLBodyElement){
+        this.htmlRmEvent = this.htmlChange(htmlBody);
+    }
+    protected htmlBodyRmEvent(htmlBody: HTMLBodyElement){
+        this.htmlRmEvent?.()
+    }
+
     protected getMdBody(iframeDoc: Document) {
         // body
         const iframeBody = iframeDoc.body as HTMLBodyElement;
-        iframeBody.contentEditable = "false"
+        // iframeBody.contentEditable = "false"
         iframeBody.style.overflow = "hidden";
         // this.scrollToTop(iframeBody)
 
@@ -43,6 +107,9 @@ export class MdTextEditor {
         bodyMd.style.backgroundColor = bgColor;
         bodyMd.style.color = fontColor;
         bodyMd.style.fontFamily = fontFamily
+        this.mdBodyAddEvent(bodyMd)
+        // 监听原来 body 的变化, 实时刷新 bodyMd
+        this.htmlBodyAddEvent(iframeBody)
         iframeHtml.append(bodyMd)
 
         const textArea = iframeDoc.createElement("textarea")
@@ -69,6 +136,7 @@ export class MdTextEditor {
     }
     protected addMdEditor(editor: Editor){
         const iframe = editor.iframeElement
+        this.iframe = iframe
         // iframe - document
         const iframeDoc = iframe.contentDocument;
         this.scrollToWinTop(iframe.contentWindow)
@@ -86,13 +154,15 @@ export class MdTextEditor {
         // iframe - document
         const iframeDoc = iframe.contentDocument;
         const iframeBody = iframe.contentDocument.body as HTMLBodyElement;
-        iframeBody.contentEditable = "true"
+        // iframeBody.contentEditable = "true"
         iframeBody.style.overflow = "auto";
         const iframeHtml = iframeDoc.getElementsByTagName('html')[0];
         const body = iframeDoc.getElementsByTagName("body");
         const mdBody = body[body.length - 1]
         // this.scrollToTop(mdBody)
         this.scrollToWinTop(iframe.contentWindow)
+        this.mdBodyRmEvent(mdBody)
+        this.htmlBodyRmEvent(iframeBody)
         iframeHtml.removeChild(mdBody);
     }
 

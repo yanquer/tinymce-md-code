@@ -1,7 +1,9 @@
 
-export namespace CodeMD {
-    export const ID = "codemd"
-    export const CMD_ID = "MceCodeEditorMD"
+export enum CodeMD {
+    ID = "codemd",
+    TITLE = ID,
+    TITLE_ZH = "源代码",
+    CMD_ID = "MceCodeEditorMD",
 }
 
 export enum TextType {

@@ -14,6 +14,9 @@ export class EditorTextManager{
 
     // 默认 html
     protected curTextType: ETextType = ETextType.html;
+    public doInit(){
+        this.curTextType = ETextType.html;
+    }
 
     editorConvertText(editor: Editor, text?: string) {
         if (!editor) return

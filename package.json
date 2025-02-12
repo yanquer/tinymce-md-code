@@ -12,7 +12,6 @@
     "release": "exit ; npm run build && npm publish"
   },
   "dependencies": {
-    "markdown-it": "^14.1.0",
     "marked": "^15.0.7",
     "turndown": "^7.2.0"
   },
@@ -24,11 +23,9 @@
     "@parcel/transformer-typescript-types": "^2.13.3",
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^16.0.0",
-    "@rollup/plugin-terser": "^0.4.4",
     "parcel": "^2.13.3",
     "rollup": "^4.34.6",
     "rollup-plugin-cleanup": "^3.2.1",
-    "rollup-plugin-strip": "^1.2.2",
     "rollup-plugin-terser": "^7.0.2",
     "tinymce": "^7.6.1",
     "typescript": "^5.7.3"

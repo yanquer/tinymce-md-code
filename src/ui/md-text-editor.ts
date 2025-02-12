@@ -1,6 +1,7 @@
 import {Editor} from "tinymce";
 
 import * as Content from '../core/Content';
+import * as Buttons from './Buttons';
 import {getCacheEditorContent} from "../core/Content";
 import {TextHandler} from "../third/text-handler";
 
@@ -9,10 +10,12 @@ export class MdTextEditor {
 
     open(editor: Editor, mdText: string){
         this.mdString = mdText;
+        Buttons.setOtherButtonEnabled(editor, false)
         this.addMdEditor(editor)
     }
 
     close(editor: Editor){
+        Buttons.setOtherButtonEnabled(editor, true)
         this.removeMdEditor(editor)
     }
 
@@ -83,10 +86,13 @@ export class MdTextEditor {
         this.htmlRmEvent?.()
     }
 
+    protected editorCanEdit(iframeBody: HTMLBodyElement, editable: 'true' | 'false' = 'false'){
+        iframeBody.contentEditable = editable
+    }
     protected getMdBody(iframeDoc: Document) {
         // body
         const iframeBody = iframeDoc.body as HTMLBodyElement;
-        // iframeBody.contentEditable = "false"
+        this.editorCanEdit(iframeBody, 'false')
         iframeBody.style.overflow = "hidden";
         // this.scrollToTop(iframeBody)
 
@@ -107,9 +113,9 @@ export class MdTextEditor {
         bodyMd.style.backgroundColor = bgColor;
         bodyMd.style.color = fontColor;
         bodyMd.style.fontFamily = fontFamily
-        this.mdBodyAddEvent(bodyMd)
+        // this.mdBodyAddEvent(bodyMd)
         // 监听原来 body 的变化, 实时刷新 bodyMd
-        this.htmlBodyAddEvent(iframeBody)
+        // this.htmlBodyAddEvent(iframeBody)
         iframeHtml.append(bodyMd)
 
         const textArea = iframeDoc.createElement("textarea")
@@ -143,26 +149,20 @@ export class MdTextEditor {
         this.getMdBody(iframeDoc)
     }
 
-    // <body id="tinymce"
-    // class="mce-content-body "
-    // data-id="tiny-react_94105848521739258707854"
-    // aria-label="Rich Text Area. Press ALT-0 for help."
-    // contenteditable="true" spellcheck="false"><p>This is the initial content of the editor.</p></body>
-
     protected removeMdEditor(editor: Editor){
         const iframe = editor.iframeElement
         // iframe - document
         const iframeDoc = iframe.contentDocument;
         const iframeBody = iframe.contentDocument.body as HTMLBodyElement;
-        // iframeBody.contentEditable = "true"
+        this.editorCanEdit(iframeBody, 'true')
         iframeBody.style.overflow = "auto";
         const iframeHtml = iframeDoc.getElementsByTagName('html')[0];
         const body = iframeDoc.getElementsByTagName("body");
         const mdBody = body[body.length - 1]
         // this.scrollToTop(mdBody)
         this.scrollToWinTop(iframe.contentWindow)
-        this.mdBodyRmEvent(mdBody)
-        this.htmlBodyRmEvent(iframeBody)
+        // this.mdBodyRmEvent(mdBody)
+        // this.htmlBodyRmEvent(iframeBody)
         iframeHtml.removeChild(mdBody);
     }
 

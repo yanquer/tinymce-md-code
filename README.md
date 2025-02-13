@@ -4,6 +4,10 @@
 
 - 支持使用 `tinymce` 时, 进行markdown源码编辑
 
+效果预览
+
+![preview](resources/img/preview-img.png)
+
 ## 使用方案一
 
 将生成的 `plugin.min.js` 复制到 `插件目录`
@@ -68,10 +72,6 @@ const TinyEditor = () => {
 export default TinyEditor
 
 ```
-
-效果预览
-
-![preview](resources/img/preview-img.png)
 
 ### 自定义文本转换方法
 

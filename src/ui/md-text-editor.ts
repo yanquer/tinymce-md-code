@@ -8,15 +8,29 @@ import {ButtonsUtil} from "./Buttons";
 export class MdTextEditor {
     static shared = new MdTextEditor();
 
+    protected mdTextOpen: boolean = false;
+    doInit(){
+        this.mdTextOpen = false;
+    }
     open(editor: Editor, mdText: string){
+        this.mdTextOpen = true
         this.mdString = mdText;
         ButtonsUtil.shared.setOtherButtonEnabled(editor, false)
         this.addMdEditor(editor)
     }
 
     close(editor: Editor){
+        this.mdTextOpen = false
         ButtonsUtil.shared.setOtherButtonEnabled(editor, true)
         this.removeMdEditor(editor)
+    }
+
+    focus(editor: Editor){
+        if (this.textArea){
+            this.textArea.focus()
+        } else {
+            editor.focus();
+        }
     }
 
     protected mdId = 'md-text-editor';
@@ -164,6 +178,7 @@ export class MdTextEditor {
         // this.mdBodyRmEvent(mdBody)
         // this.htmlBodyRmEvent(iframeBody)
         iframeHtml.removeChild(mdBody);
+        this.textArea = undefined
     }
 
     protected scrollToTop(element: HTMLElement){

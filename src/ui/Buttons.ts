@@ -1,6 +1,7 @@
 import {Editor} from 'tinymce';
 
 import {CodeMD, delayExec} from "../common";
+import {MdTextEditor} from "./md-text-editor";
 
 
 export class ButtonsUtil{
@@ -45,6 +46,7 @@ export class ButtonsUtil{
     if (isEnabled) {
       this._buttonEnableState7 = undefined
     }
+    MdTextEditor.shared.focus(editor)
     return len_ > 0
   }
 
@@ -87,6 +89,7 @@ export class ButtonsUtil{
       this._buttonEnableState6 = undefined
     }
 
+    MdTextEditor.shared.focus(editor)
     return len_ > 0
   }
 

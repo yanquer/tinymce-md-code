@@ -1,7 +1,7 @@
 
 export enum CodeMD {
     ID = "codemd",
-    TITLE = ID,
+    TITLE = "CodeMd",
     TITLE_ZH = "源代码",
     CMD_ID = "MceCodeEditorMD",
 }

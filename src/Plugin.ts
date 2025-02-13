@@ -1,21 +1,23 @@
-
+import {Editor} from "tinymce";
 import * as Commands from './api/Commands';
 import {CodeMD} from "./common";
-import {TextHandler} from "./third/text-handler";
-import {ButtonsUtil} from "./ui/Buttons";
-
-type Editor = any
+import {registerUi} from "./ui";
+import {registerThird} from "./third";
 
 
 export default (): void => {
   tinymce.PluginManager.add(CodeMD.ID, (editor: Editor) => {
     Commands.register(editor);
-    ButtonsUtil.shared.register(editor);
 
-    // 注册文本处理
-    TextHandler.shared.register(editor);
+    registerUi(editor);
+    registerThird(editor);
 
     // 返回插件的元数据
-    return {} ;
+    return {
+      getMetadata:  () => ({
+        name: CodeMD.TITLE,
+        url: "https://github.com/yanquer/tinymce-md-code"
+      })
+    } ;
   });
 };

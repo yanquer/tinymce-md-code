@@ -2,13 +2,14 @@ import {Editor} from 'tinymce';
 
 import * as Content from '../core/Content';
 import {TextHandler} from "../third/text-handler";
+import {CodeMD} from "../common/common";
 
 
 const open = (editor: Editor): void => {
   const editorContent = Content.getContent(editor);
 
   editor.windowManager.open({
-    title: 'Source Code',
+    title: CodeMD.TITLE as string,
     size: 'large',
     body: {
       type: 'panel',

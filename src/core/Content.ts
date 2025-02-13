@@ -1,5 +1,5 @@
 import {Editor} from 'tinymce';
-import {TextType} from "../common";
+import {TextType} from "../common/common";
 import {TextHandler} from "../third/text-handler";
 
 

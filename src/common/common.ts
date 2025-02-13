@@ -1,9 +1,15 @@
+import {langZh} from "../lang/lang-zh";
 
 export enum CodeMD {
     ID = "codemd",
-    TITLE = "CodeMd",
-    TITLE_ZH = "源代码",
     CMD_ID = "MceCodeEditorMD",
+
+    TITLE = "Md Code",
+    // @ts-ignore
+    TITLE_ZH = langZh["Md Code"],
+    TITLE_RESET = "Html Code",
+    // @ts-ignore
+    TITLE_RESET_ZH = langZh["Html Code"],
 }
 
 export enum TextType {

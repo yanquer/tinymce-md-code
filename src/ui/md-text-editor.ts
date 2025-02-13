@@ -8,19 +8,18 @@ import {ButtonsUtil} from "./Buttons";
 export class MdTextEditor {
     static shared = new MdTextEditor();
 
-    protected mdTextOpen: boolean = false;
+    get mdTextOpen(): boolean {
+        return !!this.textArea
+    }
     doInit(){
-        this.mdTextOpen = false;
     }
     open(editor: Editor, mdText: string){
-        this.mdTextOpen = true
         this.mdString = mdText;
         ButtonsUtil.shared.setOtherButtonEnabled(editor, false)
         this.addMdEditor(editor)
     }
 
     close(editor: Editor){
-        this.mdTextOpen = false
         ButtonsUtil.shared.setOtherButtonEnabled(editor, true)
         this.removeMdEditor(editor)
     }

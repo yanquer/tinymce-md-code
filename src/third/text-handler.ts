@@ -1,5 +1,5 @@
 import {Editor} from "tinymce";
-import {CodeMD, CodeMdOptions, IFTextHandler} from "../common";
+import {CodeMD, CodeMdOptions, IFTextHandler} from "../common/common";
 import {DefaultTextConvert} from "./default-text-convert";
 
 

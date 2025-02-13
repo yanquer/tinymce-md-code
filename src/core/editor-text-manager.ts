@@ -1,7 +1,7 @@
 import {Editor} from "tinymce";
 import {TextHandler} from "../third/text-handler";
 import * as Content from './Content';
-import {Logger} from "../logger";
+import {Logger} from "../common/logger";
 import {MdTextEditor} from "../ui/md-text-editor";
 
 enum ETextType{

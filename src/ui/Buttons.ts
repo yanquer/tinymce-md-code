@@ -1,6 +1,6 @@
 import {Editor} from 'tinymce';
 
-import {CodeMD, delayExec} from "../common";
+import {CodeMD, CodeMdOptions, delayExec} from "../common/common";
 import {MdTextEditor} from "./md-text-editor";
 
 
@@ -68,7 +68,7 @@ export class ButtonsUtil{
       const btnName: string = toolButton.ariaLabel
       if (
           // @ts-ignore
-          (![CodeMD.ID, CodeMD.TITLE_ZH].includes(btnName))
+          (![CodeMD.ID, CodeMD.TITLE_ZH, CodeMD.TITLE].includes(btnName))
           && btnName
           // && allButtonsName.includes(btnName)
       ) {
@@ -105,20 +105,33 @@ export class ButtonsUtil{
     // 延迟执行, 避免状态被tinymce其它策略回滚
     delayExec(() => {
       this._setOtherButtonEnabled(editor, isEnabled);
-    }, isEnabled ? 0 : 500)
+    }, isEnabled ? 0 : 100)
   }
 
   register = (editor: Editor): void => {
 
-    const onAction = () => editor.execCommand(CodeMD.CMD_ID);
+    const onAction = () => {
+      editor.execCommand(CodeMD.CMD_ID);
+
+      // todo: 切换 tooltip 显示
+      // const btn = editor.ui.registry.getAll().buttons[CodeMD.ID]
+      // btn.tooltip = CodeMD.TITLE_RESET as string
+      // setTooltip('New Tooltip');
+    }
 
     editor.ui.registry.addButton(CodeMD.ID, {
       icon: 'sourcecode',
-      tooltip: 'Source Code',
+      tooltip: CodeMD.TITLE as string,
       onAction,
       // onSetup: (buttonApi) => {
       //   const editorEventCallback = (eventApi) => {
-      //     buttonApi.setEnabled(true)
+      //     const mdOptions: CodeMdOptions | undefined = editor.getParam(CodeMD.ID)
+      //     const langId = editor.getParam('language')
+      //     buttonApi.setText(
+      //         MdTextEditor.shared.mdTextOpen ?
+      //             CodeMD.TITLE :
+      //             CodeMD.TITLE_RESET
+      //     )
       //     // buttonApi.setEnabled(eventApi.element.nodeName.toLowerCase() !== 'time');
       //   };
       //   editor.on('NodeChange', editorEventCallback);
@@ -128,7 +141,7 @@ export class ButtonsUtil{
 
     editor.ui.registry.addMenuItem(CodeMD.ID, {
       icon: 'sourcecode',
-      text: 'Source Code',
+      text: CodeMD.TITLE as string,
       onAction,
     });
   };

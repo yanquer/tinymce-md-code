@@ -4,13 +4,11 @@
 
 - 支持使用 `tinymce` 时, 进行markdown源码编辑
 
-## 使用
+## 使用方案一
 
 将生成的 `plugin.min.js` 复制到 `插件目录`
 
 ![插件目录](resources/img/img.png)
-
-### 使用方案1
 
 代码(React版本)
 
@@ -75,24 +73,10 @@ export default TinyEditor
 
 ![preview](resources/img/preview-img.png)
 
-### 使用方案2
+### 自定义文本转换方法
 
-| 此方案效果是弹出dialog编辑, 仅 `0.1.0` 版本支持(弹出dialog编辑)
-
-在自己的项目安装以下模块
-
-```bash
-yarn add turndown markdown-it  --save
-```
-
-再将 [text-convert.ts](resources/ts/text-convert.ts) 拷贝到自己的项目,
-这是为了实现markdow与html的互相转换.
-
-为什么不直接写到插件内部? 插件是前端库, 编译的require是node才能用的,
-全部弄到插件代码里, 可能会跟外部库有重复, 另外就是内网不方便用cdn,
-所以三方库调用自行实现 ( `>=0.2.0` 版本已经解决)
-
-最后上代码(React版本)
+转换方法可以参考 [text-convert.ts](resources/ts/text-convert.ts) 
+, 代码(React版本)
 
 ```typescript jsx
 import { useRef } from 'react';
@@ -150,15 +134,14 @@ export default TinyEditor
 
 ```
 
-## 其它方式使用
+## 使用方案二
 
-| 图例是react项目
-
-使用官方提供的 `external_plugins` 参数
+此方案不将 `plugin.min.js` 复制到 `插件目录`, 
+而是使用官方提供的 `external_plugins` 参数
 
 ![img.png](resources/img/img2.png)
 
-
+其它操作与 `方案一` 一致
 
 
 

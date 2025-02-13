@@ -1,104 +1,138 @@
 import {Editor} from 'tinymce';
 
-import {CodeMD} from "../common";
+import {CodeMD, delayExec} from "../common";
 
 
-const register = (editor: Editor): void => {
+export class ButtonsUtil{
+  static shared = new ButtonsUtil()
 
-  const onAction = () => editor.execCommand(CodeMD.CMD_ID);
+  // 禁用前状态缓存
+  protected _buttonEnableState7?: {[key: string]: boolean} = undefined
+  protected _setOtherButtonEnabled7 = (editor: Editor, isEnabled: boolean = false): boolean => {
+    // const allButtons = editor.ui.registry.getAll().buttons;
+    // const allButtonsName: string[] = []
+    // for (const buttonId in allButtons) {
+    //   allButtonsName.push(buttonId);
+    // }
 
-  editor.ui.registry.addButton(CodeMD.ID, {
-    icon: 'sourcecode',
-    tooltip: 'Source Code',
-    onAction,
-    // onSetup: (buttonApi) => {
-    //   const editorEventCallback = (eventApi) => {
-    //     buttonApi.setEnabled(true)
-    //     // buttonApi.setEnabled(eventApi.element.nodeName.toLowerCase() !== 'time');
-    //   };
-    //   editor.on('NodeChange', editorEventCallback);
-    //   return () => editor.off('NodeChange', editorEventCallback);
-    // },
-  });
+    // const toolButtons = editor.editorContainer.querySelectorAll('.tox-tbtn')
+    // tinymce 7.x 版本
+    const toolButtons = editor.editorContainer.querySelectorAll('[data-mce-name]')
 
-  editor.ui.registry.addMenuItem(CodeMD.ID, {
-    icon: 'sourcecode',
-    text: 'Source Code',
-    onAction,
-  });
-};
-
-
-const _setOtherButtonEnabled7 = (editor: Editor, isEnabled: boolean = false): boolean => {
-  // const allButtons = editor.ui.registry.getAll().buttons;
-  // const allButtonsName: string[] = []
-  // for (const buttonId in allButtons) {
-  //   allButtonsName.push(buttonId);
-  // }
-
-  // const toolButtons = editor.editorContainer.querySelectorAll('.tox-tbtn')
-  // tinymce 7.x 版本
-  const toolButtons = editor.editorContainer.querySelectorAll('[data-mce-name]')
-
-  const len_ = toolButtons.length;
-  for (let i = 0; i < len_; i++) {
-    const toolButton = toolButtons[i] as HTMLElement;
-    const btnName = toolButton.dataset.mceName
-    if (btnName !== CodeMD.ID && btnName
-        // && allButtonsName.includes(btnName)
-    ) {
-      if (isEnabled) {
-        toolButton.classList.remove('tox-tbtn--disabled')
-        toolButton.style.pointerEvents = 'auto'
-      } else {
-        toolButton.classList.add('tox-tbtn--disabled');
-        toolButton.style.pointerEvents = 'none'
+    if (!this._buttonEnableState7){
+      this._buttonEnableState7 = {}
+    }
+    const len_ = toolButtons.length;
+    for (let i = 0; i < len_; i++) {
+      const toolButton = toolButtons[i] as HTMLElement;
+      const btnName = toolButton.dataset.mceName
+      if (btnName !== CodeMD.ID && btnName
+          // && allButtonsName.includes(btnName)
+      ) {
+        if (isEnabled) {
+          if (this._buttonEnableState7?.[btnName] ?? true){
+            toolButton.classList.remove(ButtonsUtil.disableClass)
+          }
+          toolButton.style.pointerEvents = 'auto'
+        } else {
+          this._buttonEnableState7[btnName] = !toolButton.classList.contains(ButtonsUtil.disableClass)
+          toolButton.classList.add(ButtonsUtil.disableClass);
+          toolButton.style.pointerEvents = 'none'
+        }
       }
     }
+
+    if (isEnabled) {
+      this._buttonEnableState7 = undefined
+    }
+    return len_ > 0
   }
 
-  return len_ > 0
-}
-const _setOtherButtonEnabled6 = (editor: Editor, isEnabled: boolean = false): boolean => {
+  // 禁用前状态缓存
+  protected _buttonEnableState6?: {[key: string]: boolean} = undefined
+  protected _setOtherButtonEnabled6 = (editor: Editor, isEnabled: boolean = false): boolean => {
 
-  // tinymce 6.x 版本
-  const lowToolButtons =
-      editor.editorContainer.
-      querySelectorAll('.tox-editor-header > .tox-toolbar-overlord > .tox-toolbar__primary button')
+    // tinymce 6.x 版本
+    const lowToolButtons =
+        editor.editorContainer.
+        querySelectorAll('.tox-editor-header > .tox-toolbar-overlord > .tox-toolbar__primary button')
 
-  const len_ = lowToolButtons.length;
-  for (let i = 0; i < len_; i++) {
-    const toolButton = lowToolButtons[i] as HTMLElement;
-    const btnName: string = toolButton.ariaLabel
-    if (
-        // @ts-ignore
-        (![CodeMD.ID, CodeMD.TITLE_ZH].includes(btnName))
-        && btnName
-        // && allButtonsName.includes(btnName)
-    ) {
-      if (isEnabled) {
-        toolButton.classList.remove('tox-tbtn--disabled')
-        toolButton.style.pointerEvents = 'auto'
-      } else {
-        toolButton.classList.add('tox-tbtn--disabled');
-        toolButton.style.pointerEvents = 'none'
+    if (!this._buttonEnableState6){
+      this._buttonEnableState6 = {}
+    }
+    const len_ = lowToolButtons.length;
+    for (let i = 0; i < len_; i++) {
+      const toolButton = lowToolButtons[i] as HTMLElement;
+      const btnName: string = toolButton.ariaLabel
+      if (
+          // @ts-ignore
+          (![CodeMD.ID, CodeMD.TITLE_ZH].includes(btnName))
+          && btnName
+          // && allButtonsName.includes(btnName)
+      ) {
+        if (isEnabled) {
+          if (this._buttonEnableState6?.[btnName] ?? true){
+            toolButton.classList.remove(ButtonsUtil.disableClass)
+          }
+          toolButton.style.pointerEvents = 'auto'
+        } else {
+          this._buttonEnableState6[btnName] = !toolButton.classList.contains(ButtonsUtil.disableClass)
+          toolButton.classList.add(ButtonsUtil.disableClass);
+          toolButton.style.pointerEvents = 'none'
+        }
       }
     }
+
+    if (isEnabled){
+      this._buttonEnableState6 = undefined
+    }
+
+    return len_ > 0
   }
 
-  return len_ > 0
-}
+  protected _setOtherButtonEnabled = (editor: Editor, isEnabled: boolean = false): void => {
+    if (this._setOtherButtonEnabled7(editor, isEnabled)) {
+      return
+    }
+    this._setOtherButtonEnabled6(editor, isEnabled);
 
-const setOtherButtonEnabled = (editor: Editor, isEnabled: boolean = false): void => {
-  if (_setOtherButtonEnabled7(editor, isEnabled)) {
-    return
   }
-  _setOtherButtonEnabled6(editor, isEnabled);
+
+  setOtherButtonEnabled = (editor: Editor, isEnabled: boolean = false): void => {
+    // 延迟执行, 避免状态被tinymce其它策略回滚
+    delayExec(() => {
+      this._setOtherButtonEnabled(editor, isEnabled);
+    }, isEnabled ? 0 : 500)
+  }
+
+  register = (editor: Editor): void => {
+
+    const onAction = () => editor.execCommand(CodeMD.CMD_ID);
+
+    editor.ui.registry.addButton(CodeMD.ID, {
+      icon: 'sourcecode',
+      tooltip: 'Source Code',
+      onAction,
+      // onSetup: (buttonApi) => {
+      //   const editorEventCallback = (eventApi) => {
+      //     buttonApi.setEnabled(true)
+      //     // buttonApi.setEnabled(eventApi.element.nodeName.toLowerCase() !== 'time');
+      //   };
+      //   editor.on('NodeChange', editorEventCallback);
+      //   return () => editor.off('NodeChange', editorEventCallback);
+      // },
+    });
+
+    editor.ui.registry.addMenuItem(CodeMD.ID, {
+      icon: 'sourcecode',
+      text: 'Source Code',
+      onAction,
+    });
+  };
 
 }
 
+export namespace ButtonsUtil {
+  export const disableClass = "tox-tbtn--disabled"
+}
 
-export {
-  register,
-  setOtherButtonEnabled,
-};

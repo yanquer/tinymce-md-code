@@ -8,6 +8,10 @@ interface ITextHandler {
     setHtmlToMdHandler: (handler: IFTextHandler) => void;
 
     register(editor: Editor): void;
+
+    convertHtmlToMd(htmlText: string): string
+    convertMdToHtml(mdText: string): string
+    textChanged(mdText: string, htmlText: string): boolean
 }
 
 export class TextHandler implements ITextHandler {
@@ -29,6 +33,15 @@ export class TextHandler implements ITextHandler {
             return this.mdToHtmlHandler(mdText)
         }
         return mdText
+    }
+
+    textChanged(mdText: string, htmlText: string): boolean{
+        const _convertMdText = this.convertHtmlToMd(htmlText)
+        if (_convertMdText !== mdText) {
+            return true
+        }
+
+        return false
     }
 
     constructor() {

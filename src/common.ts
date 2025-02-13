@@ -20,4 +20,13 @@ export interface CodeMdOptions {
     mdToHtml?: IFTextHandler,
 }
 
+/// 延迟多少时间执行, 单位 ms
+export const delayExec = (execFun: (...args:[]) => any, delay = 500) => {
+    setTimeout(() => {
+        execFun()
+    }, delay)
+}
+
+
+
 

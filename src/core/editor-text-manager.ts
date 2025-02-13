@@ -21,7 +21,7 @@ export class EditorTextManager{
     editorConvertText(editor: Editor, text?: string) {
         if (!editor) return
 
-        // const curText = text ?? Content.getContent(editor)
+        const htmlText = text ?? Content.getContent(editor)
 
         switch (this.curTextType) {
             case ETextType.markdown:
@@ -29,11 +29,12 @@ export class EditorTextManager{
                 const html_ = TextHandler.shared.convertMdToHtml(mdText);
                 Logger.debug("editorConvertText-html_: ", html_)
                 MdTextEditor.shared.close(editor)
-                Content.setContent(editor, html_);
+                if (TextHandler.shared.textChanged(mdText, htmlText)) {
+                    Content.setContent(editor, html_);
+                }
                 this.curTextType = ETextType.html;
                 break;
             case ETextType.html:
-                const htmlText = text ?? Content.getContent(editor)
                 const md_ = TextHandler.shared.convertHtmlToMd(htmlText);
                 Logger.debug("editorConvertText-md_: ", md_)
                 // Content.setContent(editor, md_);

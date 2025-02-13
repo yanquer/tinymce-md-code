@@ -1,21 +1,21 @@
 import {Editor} from "tinymce";
 
 import * as Content from '../core/Content';
-import * as Buttons from './Buttons';
 import {getCacheEditorContent} from "../core/Content";
 import {TextHandler} from "../third/text-handler";
+import {ButtonsUtil} from "./Buttons";
 
 export class MdTextEditor {
     static shared = new MdTextEditor();
 
     open(editor: Editor, mdText: string){
         this.mdString = mdText;
-        Buttons.setOtherButtonEnabled(editor, false)
+        ButtonsUtil.shared.setOtherButtonEnabled(editor, false)
         this.addMdEditor(editor)
     }
 
     close(editor: Editor){
-        Buttons.setOtherButtonEnabled(editor, true)
+        ButtonsUtil.shared.setOtherButtonEnabled(editor, true)
         this.removeMdEditor(editor)
     }
 

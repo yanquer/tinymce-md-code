@@ -26,6 +26,15 @@ export default {
     // 去除注释等
     cleanup(),
     // terser(), // 生产环境压缩代码
+    terser({
+      // compress: false,   // 取消 代码压缩
+      // mangle: false,    // 取消 变量名混淆
+      output: {
+        comments: false,    // 去除注释
+        beautify: true,     // 保持代码格式化，不压缩为一行
+        indent_level: 2     // 设置缩进级别，可选
+      }
+    })
   ]
 };
 

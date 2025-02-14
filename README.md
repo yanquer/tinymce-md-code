@@ -8,7 +8,9 @@
 
 ![preview](resources/img/preview-img.png)
 
-## 使用方案一
+## 使用
+
+### 使用方案一
 
 将生成的 `plugin.min.js` 复制到 `插件目录`
 
@@ -73,7 +75,7 @@ export default TinyEditor
 
 ```
 
-### 自定义文本转换方法
+#### 自定义文本转换方法
 
 转换方法可以参考 [text-convert.ts](resources/ts/text-convert.ts) 
 , 代码(React版本)
@@ -134,7 +136,7 @@ export default TinyEditor
 
 ```
 
-## 使用方案二
+### 使用方案二
 
 此方案不将 `plugin.min.js` 复制到 `插件目录`, 
 而是使用官方提供的 `external_plugins` 参数
@@ -142,6 +144,24 @@ export default TinyEditor
 ![img.png](resources/img/img2.png)
 
 其它操作与 `方案一` 一致
+
+## 本地构建
+
+```bash
+yarn install
+
+# build / build-old
+#  生成的结果都是可用的, 
+#  build-old 先由 parcel 构建, 结果相对会少那么几百行
+#    估计是使用了某些优化策略
+yarn run build 
+# or 
+# yarn run build-old
+
+```
+
+
+
 
 
 

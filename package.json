@@ -6,7 +6,8 @@
   "main": "dist/plugin.js",
   "source": "src/index.ts",
   "scripts": {
-    "build": "yarn run buildJs && yarn run buildUmdMinJs",
+    "build": "rollup -c rollup.config-new.js",
+    "build-old": "yarn run buildJs && yarn run buildUmdMinJs",
     "buildJs": "parcel build",
     "buildUmdMinJs": "rollup -c",
     "release": "exit ; npm run build && npm publish"
@@ -23,6 +24,7 @@
     "@parcel/transformer-typescript-types": "^2.13.3",
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
     "parcel": "^2.13.3",
     "rollup": "^4.34.6",
     "rollup-plugin-cleanup": "^3.2.1",

@@ -1,7 +1,6 @@
 import {Editor} from 'tinymce';
 
 import {CodeMD, CodeMdOptions, delayExec} from "../common/common";
-import {MdTextEditor} from "./md-text-editor";
 
 
 export class ButtonsUtil{
@@ -106,14 +105,18 @@ export class ButtonsUtil{
     if (isEnabled) {
       this._buttonEnableState = undefined
     }
-    MdTextEditor.shared.focus(editor)
 
   }
 
-  setOtherButtonEnabled = (editor: Editor, isEnabled: boolean = false): void => {
+  setOtherButtonEnabled = (
+      editor: Editor,
+      isEnabled: boolean = false,
+      endCallAble: () => void = undefined,
+      ): void => {
     // 延迟执行, 避免状态被tinymce其它策略回滚
     delayExec(() => {
       this._setOtherButtonEnabled(editor, isEnabled);
+      endCallAble?.();
     }, isEnabled ? 0 : 100)
   }
 

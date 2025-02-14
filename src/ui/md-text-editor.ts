@@ -15,12 +15,18 @@ export class MdTextEditor {
     }
     open(editor: Editor, mdText: string){
         this.mdString = mdText;
-        ButtonsUtil.shared.setOtherButtonEnabled(editor, false)
+        ButtonsUtil.shared.setOtherButtonEnabled(
+            editor, false,
+            () => this.focus(editor)
+        )
         this.addMdEditor(editor)
     }
 
     close(editor: Editor){
-        ButtonsUtil.shared.setOtherButtonEnabled(editor, true)
+        ButtonsUtil.shared.setOtherButtonEnabled(
+            editor, true,
+            () => this.focus(editor)
+        )
         this.removeMdEditor(editor)
     }
 

@@ -1,3 +1,4 @@
+// yarn add @types/turndown @types/markdown-it --dev
 // @ts-ignore
 import markdownit from 'markdown-it'
 // import TurndownService from 'turndown/lib/turndown.browser.umd'

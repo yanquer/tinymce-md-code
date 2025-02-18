@@ -80,6 +80,13 @@ export default TinyEditor
 转换方法可以参考 [text-convert.ts](resources/ts/text-convert.ts) 
 , 代码(React版本)
 
+按需安装ts需要的相关types模块
+
+```bash
+    yarn add @types/turndown @types/markdown-it --dev
+```
+
+
 ```typescript jsx
 import { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
@@ -159,6 +166,20 @@ yarn run build
 # yarn run build-old
 
 ```
+
+## 已知问题
+
+- 默认情况, `marked` 提供的将 `md源码` 渲染为 `html` , 部分情况下兼容性不是很好.
+  比如会把 `缩进的纯文本` 渲染为 `普通纯文本` 而不是 `代码块` . 
+
+  此时最好是自定义 `mdToHtml` 选项.
+
+  为什么不直接使用其它较完善的库, 比如 `markdown-it` ? 
+  因为这个库有点大. 很多时候没必要.
+
+
+
+
 
 
 

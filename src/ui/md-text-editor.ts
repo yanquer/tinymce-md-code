@@ -35,6 +35,8 @@ export class MdTextEditor {
             this.textArea.focus()
         } else {
             editor.focus();
+            const firstBlock = editor.iframeElement.contentDocument.body.firstChild
+            if (firstBlock) editor.selection.setCursorLocation(firstBlock, 0);
         }
     }
 

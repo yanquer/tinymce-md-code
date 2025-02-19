@@ -34,19 +34,19 @@ export namespace Logger {
     // const logNumber = _logNumber()
 
     export const debug = (...msg: any[]): void => {
-        _logNumber() <= LogLevel.DEBUG && console.log(...msg);
+        _logNumber() <= LogLevel.DEBUG && console.log("[debug]: ", ...msg);
     }
 
     export const info = (...msg: any[]) => {
-        _logNumber() <= LogLevel.INFO && console.info(...msg);
+        _logNumber() <= LogLevel.INFO && console.info(" [info]: ", ...msg);
     }
 
     export const warning = (...msg: any[]) => {
-        _logNumber() <= LogLevel.WARN && console.warn(...msg);
+        _logNumber() <= LogLevel.WARN && console.warn(" [warn]: ", ...msg);
     }
 
     export const error = (...msg: any[]) => {
-        _logNumber() <= LogLevel.ERROR && console.error(...msg);
+        _logNumber() <= LogLevel.ERROR && console.error("[error]: ", ...msg);
     }
 }
 

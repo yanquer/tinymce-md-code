@@ -1,6 +1,8 @@
 import {Editor} from "tinymce";
 import {CodeMD, CodeMdOptions, IFTextHandler} from "../common/common";
 import {DefaultTextConvert} from "./default-text-convert";
+import {GlobalMdArgs} from "../common/global-md-args";
+import {Logger} from "../common/logger";
 
 
 interface ITextHandler {
@@ -21,7 +23,7 @@ export class TextHandler implements ITextHandler {
     protected htmlToMdHandler?: IFTextHandler
 
     convertHtmlToMd = (htmlText: string): string => {
-        console.log("htmlText: ", htmlText)
+        Logger.debug("htmlText: ", htmlText)
         if (this.htmlToMdHandler) {
             return this.htmlToMdHandler(htmlText)
         }
@@ -61,7 +63,7 @@ export class TextHandler implements ITextHandler {
     }
 
     register(editor: Editor): void {
-        const options: CodeMdOptions | undefined = editor.getParam(CodeMD.ID)
+        const options: CodeMdOptions | undefined = GlobalMdArgs.shared.mdOptions
 
         if (options?.mdToHtml) {
             this.setMdToHtmlHandler(options.mdToHtml)

@@ -4,10 +4,15 @@ import {CodeMD} from "./common/common";
 import {registerUi} from "./ui";
 import {registerThird} from "./third";
 import {registerLang} from "./lang";
+import {GlobalMdArgs} from "./common/global-md-args";
 
 
 export default (): void => {
   tinymce.PluginManager.add(CodeMD.ID, (editor: Editor) => {
+
+    // 参数解析, 暂存到全局环境
+    GlobalMdArgs.shared.register(editor)
+
     Commands.register(editor);
 
     registerUi(editor);

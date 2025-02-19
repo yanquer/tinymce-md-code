@@ -2,6 +2,7 @@
 // import TurndownService from 'turndown/lib/turndown.browser.umd'
 import TurndownService from 'turndown'
 import {marked} from 'marked'
+import {originTurnDownRep} from "../common/common";
 
 
 export class DefaultTextConvert {
@@ -23,9 +24,10 @@ export class DefaultTextConvert {
         // 保留代码块之间的换行
         this.turndownService.addRule('codeBlock', {
             filter: 'pre',
-            replacement: (content: string) => {
+            replacement: (content: string, node: HTMLElement, options: any) => {
                 // 确保代码块中的换行符被保留
-                return '```\n' + content.trim() + '\n```';
+                // return '\n```\n' + content.trim() + '\n```';
+                return originTurnDownRep(content, node, options)
             }
         });
     }
